@@ -1,12 +1,10 @@
 import React from 'react';
-import Bill from './pages/bill/Bill';
-import Login from './pages/login/Login';
+import Router from './router/Router';
 
 const App = () => {
   return (
     <div>
-     <Bill></Bill>
-     <Login></Login>
+      <Router></Router>
     </div>
   );
 };

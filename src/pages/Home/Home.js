@@ -1,9 +1,10 @@
 import React from 'react';
+import Bill from '../bill/Bill';
 
 const Home = () => {
     return (
         <div>
-            Home
+           <Bill></Bill>
         </div>
     );
 };
