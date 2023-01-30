@@ -39,7 +39,7 @@ const Navbar = () => {
                             </>
                             : <button className="navbar-brand mb-0 h1 btn">Log out</button>
                     }
-                    <span className="navbar-brand mb-0">Total paid</span>
+                    <span className="navbar-brand mb-0">Total paid:{sum}</span>
                 </div>
             </div>
         </nav>
