@@ -8,6 +8,7 @@ import Home from '../pages/Home/Home';
 import Login from '../pages/login/Login';
 import Signup from '../pages/register/Signup';
 import FourOfFour from './FourOfFour';
+import Protect from './Protect';
 
 const Router = () => {
     const router = createBrowserRouter([
@@ -29,7 +30,7 @@ const Router = () => {
                     loader:({params})=>fetch(`https://power-hacker-server.vercel.app/billing-list/${params.id}`)
                 },
                 {
-                    path: '/addbill/:id', element: <AddBill/>,loader:({params})=>fetch(`https://power-hacker-server.vercel.app/login/${params.id}`)
+                    path: '/addbill/:id', element: <Protect><AddBill></AddBill></Protect>,loader:({params})=>fetch(`https://power-hacker-server.vercel.app/login/${params.id}`)
                 },
                 {
                     path: '/signup', element: <Signup/>

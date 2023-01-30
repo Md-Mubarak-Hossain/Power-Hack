@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import useBill from '../../hook/useBill';
 
 const AddBill = () => {
     const handleSub = e => {
@@ -8,6 +9,7 @@ const AddBill = () => {
         const email = form.email.value;
         const phone = form.phone.value;
         const amount = form.amount.value;
+        
         const billPost = {
             fullname, email, phone, amount
         }

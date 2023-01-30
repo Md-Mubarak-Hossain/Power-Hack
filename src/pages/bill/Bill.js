@@ -3,19 +3,27 @@ import Pagination from './Pagination';
 import useImg from '../../hook/useImg';
 import AddBill from './AddBill';
 import { Link, useLoaderData } from 'react-router-dom';
-
 const Bill = () => {
     const bill=useLoaderData()
     const [Bill, setBill] = useState(bill)
-    // useEffect(() => {
-    //     fetch('https://power-hacker-server.vercel.app/billing-list')
-    //         .then(data => data.json())
-    //         .then(data => {
-                
-    //            const remainData=Bill.filter(b=>)
-    //         })
-    //         .catch(err => console.error(err))
-    // }, [])
+   
+      const searchSubmit=(e)=>{
+        e.preventDefault()
+        const form=e.target;
+        const search=form.search.value;
+        console.log(search)
+       
+        fetch('https://power-hacker-server.vercel.app/billing-list')
+        .then(data => data.json())
+        .then(data => {     
+            setBill(data)
+           let remainData=bill.filter(b=>b.fullname.toLowerCase().includes(search.toLowerCase())) ;    
+           search.length!==0? setBill(remainData):setBill(bill)  
+          
+        })
+        .catch(err => console.error(err))
+      }
+  
     console.log(Bill)
 
     const handleDelete = (id) => {
@@ -44,11 +52,13 @@ const Bill = () => {
                             <a className="navbar-brand text-primary">
                                 {useImg()}
                             </a>
-                            <form role="search" 
+                            <form 
+                            onSubmit={searchSubmit}
                             style={{
                                 width: '500px'
                             }}>
-                                <input className="form-control" type="search" placeholder="Search" aria-label="Search" />
+                                <input className="form-control" type="text" placeholder="Search" name='search' aria-label="Search" />
+                                <button className='btn btn-primary'>Search</button>
                             </form>
                         </div>
                         <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBill">
