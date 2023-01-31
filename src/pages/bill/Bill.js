@@ -1,12 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Pagination from './Pagination';
 import useImg from '../../hook/useImg';
 import AddBill from './AddBill';
 import { Link, useLoaderData } from 'react-router-dom';
+import { AuthContext } from '../../contexts/Context';
 const Bill = () => {
-    const bill=useLoaderData()
-    const [Bill, setBill] = useState(bill)
-   
+    // const bill=useLoaderData()
+
+    const [Bill, setBill] = useState([])
+   useEffect(()=>{
+    fetch('https://power-hacker-server.vercel.app/billing-list')
+    .then(data => data.json())
+    .then(data => {     
+        setBill(data) 
+        Bill() 
+    })
+   },[])
       const searchSubmit=(e)=>{
         e.preventDefault()
         const form=e.target;
@@ -17,9 +26,9 @@ const Bill = () => {
         .then(data => data.json())
         .then(data => {     
             setBill(data)
-           let remainData=bill.filter(b=>b.fullname.toLowerCase().includes(search.toLowerCase())) ;    
-           search.length!==0? setBill(remainData):setBill(bill)  
-          
+           let remainData=data.filter(b=>b.fullname.toLowerCase().includes(search.toLowerCase())) ;    
+           search.length!==0? setBill(remainData):setBill(data)  
+          Bill()
         })
         .catch(err => console.error(err))
       }
@@ -81,7 +90,7 @@ const Bill = () => {
                     <tbody>
                         {
                             Bill?.map(b =><tr key={b._id} className=''>
-                                <th scope="row">'12345'</th>
+                                <th scope="row">{b.billId}</th>
                                 <td className="">{b.fullname}</td>
                                 <td className="">{b.email}</td>
                                 <td className="">{b.phone}</td>

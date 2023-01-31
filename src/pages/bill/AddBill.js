@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { AuthContext } from '../../contexts/Context';
 import useBill from '../../hook/useBill';
 
 const AddBill = () => {
+    const [Bill, setBill] = useState([])
+    const{tBill,setTBill}=useContext(AuthContext)
     const handleSub = e => {
         e.preventDefault()
         const form = e.target;
         const fullname = form.fullname.value;
         const email = form.email.value;
         const phone = form.phone.value;
-        const amount = form.amount.value;
-        
+        const amount = parseFloat(form.amount.value);
+        const billId=Math.round(Math.random()*1000);
+        console.log(billId)
         const billPost = {
-            fullname, email, phone, amount
+            fullname, email, phone, amount,billId
         }
         fetch('https://power-hacker-server.vercel.app/add-billing', {
             method: "POST",
@@ -23,7 +27,16 @@ const AddBill = () => {
             .then(data => data.json())
             .then(data => {
                 console.log(data)
+                setBill(data)
                 if(data.acknowledged>0){
+                     fetch('https://power-hacker-server.vercel.app/billing-list')
+                     .then(result => result.json())
+                     .then(result => {     
+                        const newBill=result.filter(b=>b._id===billId._id)
+                         setBill(newBill)
+                         Bill() 
+                     })
+                   
                     alert('Bill added')
                     form.reset()                   
                 }

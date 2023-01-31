@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../contexts/Context';
 import useImg from '../hook/useImg';
 
 const Navbar = () => {
-    const user = 'Mubarak'
+    const{user}=useContext(AuthContext)
     let [bill, setBill] = useState([])
+    let [sum,setSum] =useState(0);
     console.log(bill)
     useEffect(() => {
         fetch('https://power-hacker-server.vercel.app/billing-list')
             .then(data => data.json())
-            .then(bill => setBill(bill))
+            .then(bill =>{setBill(bill)
+            for (let i = 0; i <= bill.length; i++) {
+                // sum = sum + parseInt(bill[i].amount)
+                let result=(parseInt(bill[i]?.amount))
+                isNaN(result)? sum=0:sum=sum+result;
+                // sum = sum + (parseInt(bill[i]?.amount))
+                // console.log(parseInt(bill[i]?.amount))
+            }
+            setSum(sum)})
     }, [])
 
-    let sum = 0
-    for (let i = 0; i <= bill.length; i++) {
-        // sum = sum + parseInt(bill[i].amount)
-        sum = sum + (parseInt(bill[i]?.amount))
-        console.log(parseInt(bill[i]?.amount))
-    }
+   
 
     console.log(sum)
     return (
@@ -30,16 +35,16 @@ const Navbar = () => {
                     <span className="navbar-brand mb-0 h1 px-1">Power Hacker</span>
                 </div>
                 <div>
-                    <Link to='/' className="navbar-brand mb-0">Home</Link>
+                    <Link to='/' className="navbar-brand mb-0 px-1">Home</Link>
                     {
-                        user ?
+                        user?
                             <>
-                                <Link to='/login' className="navbar-brand mb-0">Login</Link>
-                                <Link to='/signup' className="navbar-brand mb-0">Sign up</Link>
+                                <Link to='/login' className="navbar-brand mb-0 px-1">Login</Link>
+                                <Link to='/signup' className="navbar-brand mb-0 px-1">Sign up</Link>
                             </>
-                            : <button className="navbar-brand mb-0 h1 btn">Log out</button>
+                            : <Link to='/login' className="navbar-brand mb-0 px-1">Log out</Link>
                     }
-                    <span className="navbar-brand mb-0">Total paid:{sum}</span>
+                    <span className="navbar-brand mb-0 px-1">Total paid:{sum}</span>
                 </div>
             </div>
         </nav>

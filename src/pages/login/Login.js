@@ -40,9 +40,7 @@ const Login = () => {
             })
 
     }
-    if(loading){
-        return <p>loading...</p>
-    }
+ 
     return (
         <div className='container-fluid'>
           
@@ -69,7 +67,6 @@ const Login = () => {
                 </div>
                 <button type="button" className="form-control btn btn-primary">Login</button>
             </form>
-
         </div>
     );
 };
